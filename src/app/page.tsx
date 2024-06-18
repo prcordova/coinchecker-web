@@ -1,4 +1,4 @@
-`use client`;
+"use client";
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -11,9 +11,12 @@ const Subscribe = () => {
 
   useEffect(() => {
     const checkSubscription = async () => {
+      const subscriptionId = localStorage.getItem("subscriptionId");
+      if (!subscriptionId) return;
+
       try {
         const response = await fetch(
-          "http://localhost:4000/check-subscription?subscriptionId=YOUR_SUBSCRIPTION_ID",
+          `http://localhost:4000/check-subscription?subscriptionId=${subscriptionId}`,
           {
             method: "GET",
             credentials: "include",
@@ -53,6 +56,9 @@ const Subscribe = () => {
 
       const session = await response.json();
       window.location.href = session.url;
+
+      // Save subscriptionId after successful payment (this part needs to be handled on the success page)
+      localStorage.setItem("subscriptionId", session.subscriptionId);
     } catch (error) {
       console.error("Error creating checkout session:", error);
       setLoading(false);

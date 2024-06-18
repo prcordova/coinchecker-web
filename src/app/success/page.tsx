@@ -1,64 +1,38 @@
-import React, { useState, useEffect } from "react";
+// pages/success.js
+
+import { useEffect } from "react";
 import { useRouter } from "next/router";
 
-const FetchSubscription = () => {
+const Success = () => {
   const router = useRouter();
-  const { sessionId } = router.query;
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchSubscription = async () => {
-      if (!sessionId) {
-        setLoading(false);
-        return;
-      }
+    const storeSubscriptionId = async () => {
+      const session_id = router.query.session_id;
+      if (!session_id) return;
 
       try {
-        // Atualize a URL para apontar para o novo endpoint do servidor Express
         const response = await fetch(
-          `http://localhost:4000/assinatura?session_id=${sessionId}`
+          `http://localhost:4000/retrieve-session?session_id=${session_id}`
         );
-        const data = await response.json();
-
-        // Processamento adicional baseado nos dados recebidos
-        console.log(data);
+        const result = await response.json();
+        localStorage.setItem("subscriptionId", result.subscriptionId);
+        router.push("/");
       } catch (error) {
-        console.error("Erro ao buscar assinatura:", error);
-      } finally {
-        setLoading(false);
+        console.error("Error retrieving subscription:", error);
       }
     };
 
-    fetchSubscription();
-  }, [sessionId]);
+    storeSubscriptionId();
+  }, [router]);
 
-  if (loading) {
-    return <div>Carregando...</div>;
-  }
-
-  // Renderize seu componente com base no estado de carregamento aqui
   return (
-    <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-      <h1 className="text-2xl font-bold mb-4">Assinatura concluída!</h1>
-      <p className="mb-4">Obrigado por se tornar um usuário premium.</p>
+    <div className="w-[100%] min-h-screen flex items-center justify-center bg-gray-100">
+      <h1 className="text-[2.5rem] font-bold">
+        Pagamento Concluído com Sucesso!
+      </h1>
     </div>
   );
 };
 
-const SuccessPage = () => {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <React.Suspense
-        fallback={
-          <div className="text-center">
-            <h1 className="text-2xl font-bold mb-4">Processando...</h1>
-          </div>
-        }
-      >
-        <FetchSubscription />
-      </React.Suspense>
-    </div>
-  );
-};
-
-export default SuccessPage;
+export default Success;
