@@ -14,9 +14,9 @@ const FetchSubscription = () => {
       }
 
       try {
-        // Substitua a URL pela sua API de busca de assinatura
+        // Atualize a URL para apontar para o novo endpoint do servidor Express
         const response = await fetch(
-          `https://sua-api.com/assinatura?session_id=${sessionId}`
+          `http://localhost:4000/assinatura?session_id=${sessionId}`
         );
         const data = await response.json();
 
