@@ -9,8 +9,11 @@ const Subscribe = () => {
 
   useEffect(() => {
     const checkSubscription = async () => {
+      const subscriptionId = getCookie("subscriptionId");
+      if (!subscriptionId) return;
+
       const response = await fetch(
-        "http://localhost:4000/check-subscription?subscriptionId=YOUR_SUBSCRIPTION_ID",
+        `http://localhost:4000/check-subscription?subscriptionId=${subscriptionId}`,
         {
           method: "GET",
           credentials: "include",
@@ -44,7 +47,17 @@ const Subscribe = () => {
     );
 
     const session = await response.json();
-    window.location.href = session.url;
+    if (session.url) {
+      window.location.href = session.url;
+    } else {
+      alert("Erro ao iniciar a assinatura.");
+    }
+  };
+
+  const getCookie = (name: string) => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop()?.split(";").shift();
   };
 
   return (
