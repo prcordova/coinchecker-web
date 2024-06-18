@@ -1,60 +1,62 @@
-"use client";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 
-import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-
-const SuccessPage = () => {
+const FetchSubscription = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const sessionId = searchParams.get("session_id");
+  const { sessionId } = router.query;
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchSubscription = async () => {
+      if (!sessionId) {
+        setLoading(false);
+        return;
+      }
+
       try {
+        // Substitua a URL pela sua API de busca de assinatura
         const response = await fetch(
-          `http://localhost:4000/retrieve-session?session_id=${sessionId}`,
-          {
-            method: "GET",
-          }
+          `https://sua-api.com/assinatura?session_id=${sessionId}`
         );
+        const data = await response.json();
 
-        const result = await response.json();
-
-        if (result.subscriptionId) {
-          document.cookie = `subscriptionId=${result.subscriptionId}; path=/`;
-          alert("Assinatura concluída com sucesso!");
-          router.push("/");
-        } else {
-          alert("Erro ao recuperar a assinatura.");
-        }
+        // Processamento adicional baseado nos dados recebidos
+        console.log(data);
       } catch (error) {
-        console.error("Erro ao recuperar a assinatura:", error);
-        alert("Erro ao recuperar a assinatura.");
+        console.error("Erro ao buscar assinatura:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    if (sessionId) {
-      fetchSubscription();
-    } else {
-      setLoading(false);
-    }
-  }, [router, sessionId]);
+    fetchSubscription();
+  }, [sessionId]);
 
+  if (loading) {
+    return <div>Carregando...</div>;
+  }
+
+  // Renderize seu componente com base no estado de carregamento aqui
+  return (
+    <div className="bg-white p-6 rounded-lg shadow-lg text-center">
+      <h1 className="text-2xl font-bold mb-4">Assinatura concluída!</h1>
+      <p className="mb-4">Obrigado por se tornar um usuário premium.</p>
+    </div>
+  );
+};
+
+const SuccessPage = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      {loading ? (
-        <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">Processando...</h1>
-        </div>
-      ) : (
-        <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-          <h1 className="text-2xl font-bold mb-4">Assinatura concluída!</h1>
-          <p className="mb-4">Obrigado por se tornar um usuário premium.</p>
-        </div>
-      )}
+      <React.Suspense
+        fallback={
+          <div className="text-center">
+            <h1 className="text-2xl font-bold mb-4">Processando...</h1>
+          </div>
+        }
+      >
+        <FetchSubscription />
+      </React.Suspense>
     </div>
   );
 };
