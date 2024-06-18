@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-const Success = () => {
+const SuccessPage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("session_id");
@@ -59,4 +59,4 @@ const Success = () => {
   );
 };
 
-export default Success;
+export default SuccessPage;
