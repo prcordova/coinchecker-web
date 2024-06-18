@@ -1,4 +1,4 @@
-import Subscribe from "../app/subscribe/page";
+import Subscribe from "./subscribe/page";
 
 const Page = () => {
   return <Subscribe />;

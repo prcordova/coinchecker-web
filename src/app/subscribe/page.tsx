@@ -1,9 +1,11 @@
+// src/app/subscribe/page.tsx
+
 "use client";
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import useStore from "../../contexts/store"; // Importar a store
+import useStore from "../../contexts/store";
 
 const Subscribe = () => {
   const router = useRouter();
