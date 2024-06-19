@@ -1,7 +1,11 @@
 import Subscribe from "./subscribe/page";
 
 const Page = () => {
-  return <Subscribe />;
+  return (
+    <>
+      <Subscribe />
+    </>
+  );
 };
 
 export default Page;

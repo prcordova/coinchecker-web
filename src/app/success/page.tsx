@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import useStore from "../../contexts/store";
-
+import { getBaseUrl } from "@/utils/api";
 const Success = () => {
   const router = useRouter();
   const setSubscriptionId = useStore((state) => state.setSubscriptionId);
@@ -14,7 +14,7 @@ const Success = () => {
 
       try {
         const response = await fetch(
-          `http://localhost:4000/retrieve-session?session_id=${session_id}`
+          `${getBaseUrl}/retrieve-session?session_id=${session_id}`
         );
         const result = await response.json();
         localStorage.setItem("subscriptionId", result.subscriptionId);

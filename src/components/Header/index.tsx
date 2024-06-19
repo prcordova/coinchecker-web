@@ -1,13 +1,28 @@
 "use client";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import React from "react";
+import { usePathname, useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 export default function Header() {
   const pathname = usePathname();
+  const router = useRouter();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsLoggedIn(!!token);
+  }, [pathname]); // Recheque o login status ao mudar de rota
+
   const styles = {
     activeLink: "border-b-2 border-[goldenrod] text-white",
     link: "text-white",
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("subscriptionId");
+    setIsLoggedIn(false);
+    router.push("/login");
   };
 
   return (
@@ -47,6 +62,23 @@ export default function Header() {
           >
             Support
           </Link>
+          {isLoggedIn ? (
+            <button
+              onClick={handleLogout}
+              className="text-white border border-white px-4 py-2 rounded hover:bg-white hover:text-black"
+            >
+              Logout
+            </button>
+          ) : (
+            <Link
+              href={"/login"}
+              className={
+                pathname === "/login" ? styles.activeLink : styles.link
+              }
+            >
+              Login
+            </Link>
+          )}
         </div>
       </div>
     </header>

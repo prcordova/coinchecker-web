@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { getBaseUrl } from "@/utils/api";
 
 interface SubscriptionCheckerProps {
   children: React.ReactNode;
@@ -12,7 +13,7 @@ const SubscriptionChecker = ({ children }: SubscriptionCheckerProps) => {
 
   useEffect(() => {
     const checkSubscription = async () => {
-      const response = await fetch("http://localhost:4000/check-subscription", {
+      const response = await fetch(`h${getBaseUrl}/check-subscription`, {
         method: "GET",
         credentials: "include",
       });

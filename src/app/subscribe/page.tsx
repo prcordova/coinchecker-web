@@ -1,11 +1,12 @@
-// src/app/subscribe/page.tsx
-
 "use client";
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { toast } from "react-toastify";
 import useStore from "../../contexts/store";
+import useAuth from "../../hooks/useAuth";
+import { getBaseUrl } from "../../utils/api";
 
 const Subscribe = () => {
   const router = useRouter();
@@ -14,17 +15,19 @@ const Subscribe = () => {
   const subscriptionId = useStore((state) => state.subscriptionId);
   const setSubscriptionId = useStore((state) => state.setSubscriptionId);
   const [loading, setLoading] = useState(false);
+  const { checkAuth } = useAuth();
 
   useEffect(() => {
     const checkSubscription = async () => {
       const id = localStorage.getItem("subscriptionId");
       if (!id) return;
 
-      setSubscriptionId(id); // Atualizar a store com o subscriptionId
+      setSubscriptionId(id);
 
       try {
+        const baseUrl = getBaseUrl();
         const response = await fetch(
-          `http://localhost:4000/check-subscription?subscriptionId=${id}`,
+          `${baseUrl}/check-subscription?subscriptionId=${id}`,
           {
             method: "GET",
             credentials: "include",
@@ -35,11 +38,12 @@ const Subscribe = () => {
 
         if (result.isPremium) {
           setIsPremium(true);
-          alert("Você já é um usuário premium!");
+          toast.success("Você já é um usuário premium!");
           router.push("/");
         }
       } catch (error) {
         console.error("Error checking subscription:", error);
+        toast.error("Erro ao verificar a assinatura.");
       }
     };
 
@@ -47,36 +51,36 @@ const Subscribe = () => {
   }, [router, setIsPremium, setSubscriptionId]);
 
   const handleSubscribe = async () => {
+    if (!checkAuth()) {
+      toast.warn("Por favor, faça login para continuar.");
+      router.push("/login");
+      return;
+    }
+
     setLoading(true);
     try {
-      const response = await fetch(
-        "http://localhost:4000/create-checkout-session",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            priceId: "price_1PSqqvG5WXPokcit9lLjKj13",
-          }),
-        }
-      );
+      const baseUrl = getBaseUrl();
+      const response = await fetch(`${baseUrl}/subscribe`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
       const session = await response.json();
       window.location.href = session.url;
 
-      // Save subscriptionId after successful payment (this part needs to be handled on the success page)
       localStorage.setItem("subscriptionId", session.subscriptionId);
-      setSubscriptionId(session.subscriptionId); // Atualizar a store com o subscriptionId
+      setSubscriptionId(session.subscriptionId);
     } catch (error) {
       console.error("Error creating checkout session:", error);
+      toast.error("Erro ao criar sessão de checkout.");
       setLoading(false);
     }
   };
 
   return (
     <div className="w-[100%] min-h-screen flex items-center justify-center bg-gray-100 flex-wrap sm:flex-nowrap">
-      {/* Parte 1: Imagem */}
       <div className="w-full sm:w-[50%] hidden sm:block h-screen flex flex-col m-auto justify-center items-center bg-gray-200">
         <img
           src="https://th.bing.com/th/id/R.9dd61cbc5dca70787ebf397eaab9894a?rik=yILfUWBnMpMH9g&pid=ImgRaw&r=0"
@@ -84,8 +88,6 @@ const Subscribe = () => {
           className="max-w-full h-[100%] object-cover"
         />
       </div>
-
-      {/* Parte 2: Assinar Agora */}
       <div className="w-full sm:w-[50%] flex flex-col h-[100vh] justify-center p-6 rounded-lg shadow-lg text-center">
         <h1 className="text-[goldenrod] text-[2.5rem] font-bold mb-4">
           Que bom ter você aqui!

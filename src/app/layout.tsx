@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Header from "@/components/Header";
 
@@ -21,6 +23,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={(inter.className, "h-[100vh]")}>
         <Header />
+        <ToastContainer />
         {children}
       </body>
     </html>
