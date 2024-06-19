@@ -5,5 +5,5 @@ export const getBaseUrl = () => {
       return "http://localhost:4000";
     }
   }
-  return "https://coinchecker2-647hrzuj.b4a.run";
+  return "https://coinchecker3-2c9pds9s.b4a.run";
 };
