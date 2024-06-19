@@ -39,7 +39,7 @@ const Register = () => {
   };
 
   return (
-    <div className="w-full min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="w-full min-h-screen flex items-center justify-center bg-gray-200">
       <div className="w-full max-w-md p-6 rounded-lg shadow-lg bg-white">
         <h1 className="text-2xl font-bold mb-4 text-center">Registrar</h1>
         <div className="mb-4">
@@ -48,7 +48,7 @@ const Register = () => {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-4 py-2 mt-2 border rounded-lg focus:outline-none focus:border-blue-500"
+            className="w-full px-4 py-2 mt-2 border rounded-lg  text-gray-700 focus:outline-none focus:border-blue-500"
           />
         </div>
         <div className="mb-4">
@@ -57,7 +57,7 @@ const Register = () => {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-2 mt-2 border rounded-lg focus:outline-none focus:border-blue-500"
+            className="w-full px-4 py-2 mt-2 border rounded-lg  text-gray-700 focus:outline-none focus:border-blue-500"
           />
         </div>
         <button
@@ -67,7 +67,7 @@ const Register = () => {
         >
           {loading ? "Registrando..." : "Registrar"}
         </button>
-        <p className="mt-4 text-center">
+        <p className="mt-4 text-center  text-gray-700">
           Já tem uma conta?{" "}
           <a href="/login" className="text-blue-500 hover:underline">
             Login
