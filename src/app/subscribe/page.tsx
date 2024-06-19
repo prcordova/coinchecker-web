@@ -101,20 +101,22 @@ const Subscribe = () => {
               Assine agora e tenha acesso a recursos exclusivos!
             </h2>
 
-            <button
-              onClick={handleSubscribe}
-              className="px-4 py-2 m-5 bg-blue-500 text-white rounded hover:bg-blue-600"
-              disabled={loading}
-            >
-              {loading ? "Processando..." : "Assinar Agora"}
-            </button>
+            <div className="flex p-4 items-center- justify-center w-full">
+              <button
+                onClick={handleSubscribe}
+                className="px-4 py-2 m-5 bg-blue-500 w-full max-w-[250px] text-white rounded hover:bg-blue-600"
+                disabled={loading}
+              >
+                {loading ? "Processando..." : "Assinar Agora"}
+              </button>
+            </div>
           </>
         )}
 
         <div className="h-[300px] w-full flex flex-col gap-4 items-center justify-center text-blue-500">
           Ainda não tem nosso app? Baixe agora e aproveite!
           <Link
-            className="text-tomato text-[1.5rem] hover:bg-blue-700 text-[white] rounded-md p-2 bg-blue-500"
+            className="px-4 py-2 m-5 bg-blue-500 w-full max-w-[150px] text-white rounded hover:bg-blue-600"
             href="/downloads"
           >
             Download

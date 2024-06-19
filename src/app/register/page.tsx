@@ -1,20 +1,58 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation"; // Corrigido para importar do 'next/navigation'
+import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { z, ZodError } from "zod";
 import { getBaseUrl } from "../../utils/api";
+
+// Definindo o schema de validação com zod
+const schema = z.object({
+  email: z.string().nonempty("Email é obrigatório").email("Email inválido"),
+  password: z
+    .string()
+    .nonempty("Senha é obrigatória")
+    .min(6, "A senha deve ter no mínimo 6 caracteres"),
+});
+
+// Tipagem dos erros de validação
+type ValidationErrors = {
+  email?: string[];
+  password?: string[];
+};
 
 const Register = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState<ValidationErrors>({});
   const [loading, setLoading] = useState(false);
 
   const handleRegister = async () => {
+    // Resetar erros antes da validação
+    setErrors({});
+
+    // Validar os dados usando zod
+    const validationResult = schema.safeParse({ email, password });
+
+    if (!validationResult.success) {
+      const fieldErrors: ValidationErrors = {};
+      validationResult.error.errors.forEach((error) => {
+        if (error.path.length > 0) {
+          const fieldName = error.path[0] as keyof ValidationErrors;
+          if (!fieldErrors[fieldName]) {
+            fieldErrors[fieldName] = [];
+          }
+          fieldErrors[fieldName]?.push(error.message);
+        }
+      });
+      setErrors(fieldErrors);
+      return;
+    }
+
     setLoading(true);
     try {
-      const response = await fetch(`${getBaseUrl}/register`, {
+      const response = await fetch(`${getBaseUrl()}/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -48,8 +86,13 @@ const Register = () => {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-4 py-2 mt-2 border rounded-lg  text-gray-700 focus:outline-none focus:border-blue-500"
+            className="w-full px-4 py-2 mt-2 border rounded-lg text-gray-700 focus:outline-none focus:border-blue-500"
           />
+          {errors.email && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.email.join(", ")}
+            </p>
+          )}
         </div>
         <div className="mb-4">
           <label className="block text-gray-700">Senha</label>
@@ -57,8 +100,13 @@ const Register = () => {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-2 mt-2 border rounded-lg  text-gray-700 focus:outline-none focus:border-blue-500"
+            className="w-full px-4 py-2 mt-2 border rounded-lg text-gray-700 focus:outline-none focus:border-blue-500"
           />
+          {errors.password && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.password.join(", ")}
+            </p>
+          )}
         </div>
         <button
           onClick={handleRegister}
@@ -67,7 +115,7 @@ const Register = () => {
         >
           {loading ? "Registrando..." : "Registrar"}
         </button>
-        <p className="mt-4 text-center  text-gray-700">
+        <p className="mt-4 text-center text-gray-700">
           Já tem uma conta?{" "}
           <a href="/login" className="text-blue-500 hover:underline">
             Login
