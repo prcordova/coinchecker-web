@@ -24,7 +24,9 @@ export default function RootLayout({
       <body className={(inter.className, "h-[100vh]")}>
         <Header />
         <ToastContainer />
-        {children}
+        <div className="w-full min-h-screen flex items-center justify-center bg-gray-200">
+          {children}
+        </div>
       </body>
     </html>
   );

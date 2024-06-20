@@ -55,12 +55,12 @@ export default function Header() {
             About
           </Link>
           <Link
-            href={"/support"}
+            href={"/download"}
             className={
-              pathname === "/support" ? styles.activeLink : styles.link
+              pathname === "/download" ? styles.activeLink : styles.link
             }
           >
-            Support
+            Download
           </Link>
           {isLoggedIn ? (
             <button
