@@ -98,14 +98,15 @@ const Subscribe = () => {
         />
       </div>
       <div className="w-full sm:w-[50%] flex flex-col h-[100vh] justify-center p-6 rounded-lg shadow-lg text-center">
-        <h1 className="text-[goldenrod] text-[2.5rem] font-bold mb-4">
-          Que bom ter você aqui!
-        </h1>
-        <p className="mb-4 text-[#000000]">
-          Agradecemos seu interesse em se tornar um usuário premium!
-        </p>
-        {!isPremium && (
+        {!isPremium ? (
           <>
+            <h1 className="text-[goldenrod] text-[2.5rem] font-bold mb-4">
+              Que bom ter você aqui!
+            </h1>
+            <p className="mb-4 text-[#000000]">
+              Agradecemos seu interesse em se tornar um usuário premium!
+            </p>
+
             <h2 className="text-[1.5rem] text-[#000000]">
               Assine agora e tenha acesso a recursos exclusivos!
             </h2>
@@ -119,6 +120,16 @@ const Subscribe = () => {
                 {loading ? "Processando..." : "Assinar Agora"}
               </button>
             </div>
+          </>
+        ) : (
+          <>
+            <h1 className="text-[goldenrod] text-[2.5rem] font-bold mb-4">
+              Você já é um usuário premium!
+            </h1>
+            <p className="mb-4 text-[#000000]">
+              Obrigado por ser um usuário premium! Aproveite nossos recursos
+              exclusivos.
+            </p>
           </>
         )}
 
