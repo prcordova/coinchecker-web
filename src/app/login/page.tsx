@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import useStore from "../../contexts/store";
@@ -91,6 +91,26 @@ const Login = () => {
     }
   };
 
+  useEffect(() => {
+    const injectScript = () => {
+      const userSubscription = localStorage.getItem(
+        "user-subscription-storage"
+      );
+      if (userSubscription) {
+        chrome.runtime.sendMessage(
+          { action: "storeSubscriptionData", data: userSubscription },
+          (response: any) => {
+            console.log("Subscription data sent to extension:", response);
+          }
+        );
+      }
+    };
+
+    // Injetar o script após o login bem-sucedido
+    if (localStorage.getItem("token")) {
+      injectScript();
+    }
+  }, []);
   return (
     <div className="w-full min-h-screen flex items-center justify-center bg-gray-200">
       <div className="w-full max-w-md p-6 rounded-lg shadow-lg bg-white">
