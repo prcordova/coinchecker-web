@@ -3,10 +3,9 @@ import useStore from "../contexts/store";
 
 interface JwtPayload {
   exp?: number;
-}
-
-interface JwtPayload {
-  exp?: number;
+  email?: string;
+  isPremium?: boolean;
+  subscriptionId?: string;
 }
 
 const useAuth = () => {
@@ -25,12 +24,23 @@ const useAuth = () => {
         setSubscriptionId(null || "");
         return false;
       }
+      setIsPremium(decoded.isPremium || false);
+      setSubscriptionId(decoded.subscriptionId || null);
       return true;
     }
     return false;
   };
 
-  return { checkAuth };
+  const getUser = () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const decoded: JwtPayload = jwtDecode(token);
+      return decoded;
+    }
+    return null;
+  };
+
+  return { checkAuth, getUser };
 };
 
 export default useAuth;

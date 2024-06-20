@@ -15,7 +15,7 @@ const Subscribe = () => {
   const subscriptionId = useStore((state) => state.subscriptionId);
   const setSubscriptionId = useStore((state) => state.setSubscriptionId);
   const [loading, setLoading] = useState(false);
-  const { checkAuth } = useAuth();
+  const { checkAuth, getUser } = useAuth();
 
   useEffect(() => {
     const checkSubscription = async () => {
@@ -57,6 +57,13 @@ const Subscribe = () => {
       return;
     }
 
+    const user = getUser();
+    if (!user || !user.email) {
+      toast.error("Erro ao obter informações do usuário.");
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
     try {
       const baseUrl = getBaseUrl();
@@ -65,13 +72,16 @@ const Subscribe = () => {
         headers: {
           "Content-Type": "application/json",
         },
+        body: JSON.stringify({ email: user.email }),
       });
 
       const session = await response.json();
-      window.location.href = session.url;
-
-      localStorage.setItem("subscriptionId", session.subscriptionId);
-      setSubscriptionId(session.subscriptionId);
+      if (session.url) {
+        localStorage.setItem("subscriptionId", session.subscriptionId);
+        window.location.href = session.url;
+      } else {
+        throw new Error("Erro ao criar sessão de checkout.");
+      }
     } catch (error) {
       console.error("Error creating checkout session:", error);
       toast.error("Erro ao criar sessão de checkout.");
