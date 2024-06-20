@@ -68,8 +68,13 @@ const Login = () => {
 
       if (response.ok) {
         localStorage.setItem("token", data.token);
+        localStorage.setItem(
+          "isPremium",
+          data.user.isPremium ? "true" : "false"
+        );
         if (data.user.subscriptionId) {
           localStorage.setItem("subscriptionId", data.user.subscriptionId);
+
           setSubscriptionId(data.user.subscriptionId);
         }
         setIsPremium(data.user.isPremium);
