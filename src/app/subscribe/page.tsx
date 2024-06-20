@@ -77,14 +77,13 @@ const Subscribe = () => {
 
       const session = await response.json();
       if (session.url) {
-        localStorage.setItem("subscriptionId", session.subscriptionId);
         window.location.href = session.url;
       } else {
-        throw new Error("Erro ao criar sessão de checkout.");
+        throw new Error(session.error || "Erro ao criar sessão de checkout.");
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error creating checkout session:", error);
-      toast.error("Erro ao criar sessão de checkout.");
+      toast.error("Erro ao criar sessão de checkout: " + error.message);
       setLoading(false);
     }
   };
