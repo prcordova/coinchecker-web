@@ -21,6 +21,7 @@ export default function Header() {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("subscriptionId");
+    localStorage.removeItem("user-subscription-storage");
     setIsLoggedIn(false);
     router.push("/login");
   };
