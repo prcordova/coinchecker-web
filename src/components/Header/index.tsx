@@ -28,16 +28,22 @@ export default function Header() {
 
   return (
     <header className="">
-      <div className="w-full flex justify-between items-center text-[1.5rem] flex-row p-5 m-auto max-w-[1200px]">
+      <div className="w-full flex justify-between items-center text-[0.8rem] sm:text-[1.5rem] flex-row p-2 sm:p-5 m-auto max-w-[1200px]">
         <div className="w-[30%]">
-          <Link href={"/"} className="text-2xl font-bold">
+          <Link
+            href={"/"}
+            className=" text-[0.8rem] sm:text-[2.5rem] font-bold"
+          >
             Coin<span className="text-[goldenrod] font-bold">Checker</span>
           </Link>
         </div>
-        <div className="flex w-[60%] gap-4 justify-between items-center">
+        <div className="flex w-[70%] sm:w-[60%] gap-1 sm:gap-3 justify-between items-center">
           <Link
             href={"/"}
-            className={pathname === "/" ? styles.activeLink : styles.link}
+            className={
+              (pathname === "/" ? styles.activeLink : styles.link,
+              "hidden sm:block")
+            }
           >
             Home
           </Link>
@@ -66,7 +72,7 @@ export default function Header() {
           {isLoggedIn ? (
             <button
               onClick={handleLogout}
-              className="text-white border border-white px-4 py-2 rounded hover:bg-white hover:text-black"
+              className="text-white border border-none sm:border-white px-1 sm:px-4 py-2 rounded hover:bg-white hover:text-black"
             >
               Logout
             </button>

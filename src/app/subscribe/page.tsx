@@ -97,7 +97,7 @@ const Subscribe = () => {
           className="max-w-full h-[100%] object-cover"
         />
       </div>
-      <div className="w-full sm:w-[50%] flex flex-col h-[100vh] justify-center p-6 rounded-lg shadow-lg text-center">
+      <div className="w-full  sm:w-[50%] flex flex-col h-[100vh] justify-center p-6 rounded-lg shadow-lg text-center">
         {!isPremium ? (
           <>
             <h1 className="text-[goldenrod] text-[2.5rem] font-bold mb-4">
