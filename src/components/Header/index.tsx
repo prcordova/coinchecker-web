@@ -28,16 +28,16 @@ export default function Header() {
 
   return (
     <header className="">
-      <div className="w-full flex justify-between items-center text-[0.8rem] sm:text-[1.5rem] flex-row p-2 sm:p-5 m-auto max-w-[1200px]">
-        <div className="w-[30%]">
+      <div className="w-full flex justify-between items-center text-[0.8rem] sm:text-[1.5rem] flex-row p-4 sm:p-5 m-auto max-w-[1200px]">
+        <div className="w-[20%] md:w-[30%]">
           <Link
             href={"/"}
-            className=" text-[0.8rem] sm:text-[2.5rem] font-bold"
+            className=" text-[0.8rem] sm:text-[1.5rem] font-bold"
           >
             Coin<span className="text-[goldenrod] font-bold">Checker</span>
           </Link>
         </div>
-        <div className="flex w-[70%] sm:w-[60%] gap-1 sm:gap-3 justify-between items-center">
+        <div className="flex w-[70%] md:w-[60%] gap-1 sm:gap-3 justify-between items-center">
           <Link
             href={"/"}
             className={
