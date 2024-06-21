@@ -23,8 +23,8 @@ export default function Footer() {
 
   return (
     <footer className="">
-      <div className="w-full flex justify-between flex-col items-center text-[0.8rem] sm:text-[1.5rem]  p-4 sm:p-5 m-auto max-w-[1200px]">
-        <div className="w-[100%] flex  p-1 items-center justify-center m-auto  ">
+      <div className="w-full flex justify-between flex-col sm:flex-row items-center text-[0.8rem] sm:text-[1.5rem]  p-4 sm:p-5 m-auto max-w-[1200px]">
+        <div className="w-[100%] md:w-[50%] flex  p-1 items-center justify-center sm:justify-start m-auto sm:m-0  ">
           <Link
             href={"/"}
             className=" text-[0.8rem] sm:text-[1.5rem] font-bold"
@@ -33,7 +33,7 @@ export default function Footer() {
           </Link>
         </div>
         <div className="flex w-[70%] md:w-[60%] gap-1 sm:gap-3 justify-between items-center">
-          <Link
+          {/* <Link
             href={"/contact"}
             className={
               pathname === "/contact" ? styles.activeLink : styles.link
@@ -54,7 +54,10 @@ export default function Footer() {
             }
           >
             Download
-          </Link>
+          </Link> */}
+          <p className=" flex w-[100%] text-center m-auto justify-center flex-row">
+            This project was made with <span>❤️</span>
+          </p>
         </div>
       </div>
     </footer>
