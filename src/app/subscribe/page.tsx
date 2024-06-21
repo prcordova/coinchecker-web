@@ -38,12 +38,12 @@ const Subscribe = () => {
 
         if (result.isPremium) {
           setIsPremium(true);
-          toast.success("Você já é um usuário premium!");
+          toast.success("You already have a premium subscription.");
           router.push("/");
         }
       } catch (error) {
         console.error("Error checking subscription:", error);
-        toast.error("Erro ao verificar a assinatura.");
+        toast.error("Error checking subscription.");
       }
     };
 
@@ -52,14 +52,14 @@ const Subscribe = () => {
 
   const handleSubscribe = async () => {
     if (!checkAuth()) {
-      toast.warn("Por favor, faça login para continuar.");
+      toast.warn("You need to be logged in to subscribe.");
       router.push("/login");
       return;
     }
 
     const user = getUser();
     if (!user || !user.email) {
-      toast.error("Erro ao obter informações do usuário.");
+      toast.error("Error getting user information.");
       setLoading(false);
       return;
     }
@@ -79,11 +79,11 @@ const Subscribe = () => {
       if (session.url) {
         window.location.href = session.url;
       } else {
-        throw new Error(session.error || "Erro ao criar sessão de checkout.");
+        throw new Error(session.error || "Error creating checkout session.");
       }
     } catch (error: any) {
       console.error("Error creating checkout session:", error);
-      toast.error("Erro ao criar sessão de checkout: " + error.message);
+      toast.error("Error creating checkout session: " + error.message);
       setLoading(false);
     }
   };
@@ -101,14 +101,14 @@ const Subscribe = () => {
         {!isPremium ? (
           <>
             <h1 className="text-[goldenrod] text-[2.5rem] font-bold mb-4">
-              Que bom ter você aqui!
+              Its time to subscribe!
             </h1>
             <p className="mb-4 text-[#000000]">
-              Agradecemos seu interesse em se tornar um usuário premium!
+              We have exclusive resources for our premium users.
             </p>
 
             <h2 className="text-[1.5rem] text-[#000000]">
-              Assine agora e tenha acesso a recursos exclusivos!
+              Subscribe now and get access to exclusive resources!
             </h2>
 
             <div className="flex p-4 items-center- justify-center w-full">
@@ -124,17 +124,16 @@ const Subscribe = () => {
         ) : (
           <>
             <h1 className="text-[goldenrod] text-[2.5rem] font-bold mb-4">
-              Você já é um usuário premium!
+              You already have a premium subscription!
             </h1>
             <p className="mb-4 text-[#000000]">
-              Obrigado por ser um usuário premium! Aproveite nossos recursos
-              exclusivos.
+              Thank you for subscribing to our premium plan.
             </p>
           </>
         )}
 
         <div className="h-[300px] w-full flex flex-col gap-4 items-center justify-center text-blue-500">
-          Ainda não tem nosso app? Baixe agora e aproveite!
+          Still not convinced? Download our free resources and see for yourself!
           <Link
             className="px-4 py-2 m-5 bg-blue-500 w-full max-w-[150px] text-white rounded hover:bg-blue-600"
             href="/downloads"

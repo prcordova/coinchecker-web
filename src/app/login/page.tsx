@@ -148,12 +148,12 @@ const Login = () => {
           className="w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
           disabled={loading}
         >
-          {loading ? "Entrando..." : "Entrar"}
+          {loading ? "Entering..." : "Enter"}
         </button>
         <p className="mt-4 text-center text-gray-700">
-          Não tem uma conta?{" "}
+          Not have an account ?
           <a href="/register" className="text-blue-500 hover:underline">
-            Registrar
+            Register
           </a>
         </p>
       </div>
